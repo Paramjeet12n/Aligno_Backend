@@ -1,0 +1,11 @@
+target
+.mvn
+.idea
+.vscode
+*.iml
+*.log
+.DS_Store
+HELP.md
+Dockerfile
+.env
+.env.*

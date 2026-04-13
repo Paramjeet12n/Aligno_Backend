@@ -1,0 +1,19 @@
+# Offline / no-Postgres: mvn spring-boot:run -Dspring-boot.run.profiles=local
+# Schema from JPA (Flyway SQL is Postgres-specific).
+app:
+  dev-seed:
+    enabled: true
+    # Re-apply README passwords on startup if those emails already exist (fixes stale H2/Postgres rows).
+    sync-seed-passwords: true
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:realtimeboard;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  flyway:
+    enabled: false
