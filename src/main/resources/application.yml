@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: realtimeboard-backend
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/realtimeboard}
+    # Default OS username matches typical Homebrew Postgres on macOS (role "postgres" often does not exist).
+    # Docker / Neon / cloud: set SPRING_DATASOURCE_USERNAME (e.g. postgres) and SPRING_DATASOURCE_PASSWORD.
+    username: ${SPRING_DATASOURCE_USERNAME:${user.name}}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 0
+      max-lifetime: 240000
+      keepalive-time: 60000
+      validation-timeout: 5000
+      connection-timeout: 10000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+  flyway:
+    enabled: false
+
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=45s
+
+server:
+  port: ${PORT:8080}
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+
+app:
+  dev-seed:
+    enabled: false
+    # When dev-seed is on, set true to reset seed users' passwords to match DevDataSeeder (local profile enables this).
+    sync-seed-passwords: false
+  jwt:
+    secret: ${JWT_SECRET:dev-only-secret-must-be-at-least-32-bytes-long-for-hs256}
+    expires-seconds: ${JWT_EXPIRES_SECONDS:604800}
+  cors:
+    # Comma-separated patterns (Spring): http://localhost:* matches any localhost port; add your prod origin e.g. https://app.example.com
+    allowed-origin-patterns: ${CORS_ALLOWED_ORIGIN_PATTERNS:http://localhost:*,http://127.0.0.1:*}

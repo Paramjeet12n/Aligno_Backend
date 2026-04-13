@@ -1,0 +1,24 @@
+# In-memory DB for tests (schema from JPA; Flyway SQL is Postgres-specific).
+spring:
+  datasource:
+    url: jdbc:h2:mem:rtb_test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    username: sa
+    password:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+  flyway:
+    enabled: false
+
+  cache:
+    type: none
+
+app:
+  dev-seed:
+    enabled: false
+  jwt:
+    secret: test-secret-must-be-at-least-32-bytes-long!!
+    expires-seconds: 604800
+  cors:
+    allowed-origin-patterns: http://localhost:*,http://127.0.0.1:*
